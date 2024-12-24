@@ -12,6 +12,20 @@
 
     <script src="{{ url_for('static', filename='default/vendor/3.4.5') }}"></script>
     <script>
+        // 在页面渲染前立即执行主题初始化
+        (function() {
+            function getInitialTheme() {
+                const darkMode = document.cookie.split('; ').find(row => row.startsWith('darkMode='));
+                if (darkMode) {
+                    return darkMode.split('=')[1] === 'true';
+                }
+                return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            }
+            if (getInitialTheme()) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+        
         tailwind.config = {
             darkMode: 'class',
             theme: {
